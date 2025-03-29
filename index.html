@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- <meta charset="utf-8">
+  <meta name="description"
+        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
+  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nerfies: Deformable Neural Radiance Fields</title> -->
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Dexterous Non-Prehensile Manipulation for Ungraspable Object via Extrinsic Dexterity">
+  <meta name="keywords" content="ExDex, D-NeRF, NeRF">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ExDex: Dexterous Non-Prehensile Manipulation for Ungraspable Object via Extrinsic Dexterity</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <title>GIF Display</title>
+  <style>
+      .gif-container {
+          max-width: 100%;
+          text-align: center;
+      }
+      .gif-image {
+          max-width: 100%;
+          height: auto;
+      }
+  </style>
+
+
+  <title>MathJax Example</title>
+      <!-- 加载 MathJax -->
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+      </script>
+      <style>
+        .content {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+    </style>
+  </head>
+<body>
+
+<!-- <nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://keunhong.com">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://hypernerf.github.io">
+            HyperNeRF
+          </a>
+          <a class="navbar-item" href="https://nerfies.github.io">
+            Nerfies
+          </a>
+          <a class="navbar-item" href="https://latentfusion.github.io">
+            LatentFusion
+          </a>
+          <a class="navbar-item" href="https://photoshape.github.io">
+            PhotoShape
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav> -->
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">ExDex: Dexterous Non-Prehensile Manipulation for Ungraspable Object via Extrinsic Dexterity</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://github.com/tangty11">Yuhan Wang</a><sup>1,2</sup>,</span>
+            <span class="author-block">
+              <a href="https://student-of-holmes.github.io/">Yu Li</a><sup>1,2</sup>,</span>
+            <span class="author-block">
+              <a href="https://www.yangyaodong.com/">Yaodong Yang</a><sup>1,2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://cypypccpy.github.io/">Yuanpei Chen</a><sup>1,2</sup>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>PKU-PsiBot Joint Lab</span>
+            <span class="author-block"><sup>2</sup>Peking University</span>
+          </div>
+
+          <!-- <div class="column has-text-centered">
+            <div class="publication-links"> -->
+              <!-- PDF Link. -->
+              <!-- <span class="link-block">
+                <a href="https://arxiv.org/pdf/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span> -->
+              <!-- Video Link. -->
+              <!-- <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <!-- <span class="link-block">
+                <a href="https://github.com/google/nerfies"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span> -->
+              <!-- Dataset Link. -->
+              <!-- <span class="link-block">
+                <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+            </div>
+
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+        <img src="./static/images/teasor.jpeg"
+                  class="interpolation-image"
+                  alt="Interpolate start reference image."/>
+      <div class="content has-text-justified">
+        <!-- <p>
+          (A) Training: Our system is trained in three stages. 
+          In Stage 1, we train a prediction model \(\pi\<sub>pre</sub>) through supervised learning that takes point cloud input and predicts the optimal target position $P_t$ for object repositioning. 
+          Stage 2 focuses on training three low-level skills via reinforcement learning: a pushing policy $\pi_\textrm{push}$ that repositions objects to target locations, and two policies $\pi_\textrm{wall}, \pi_\textrm{edge}$ that enable grasping of ungraspable objects from walls and table edges via extrinsic dexterity. 
+          In Stage 3, we jointly finetune these policies to ensure better transitions between consecutive skills. 
+          
+          (B) Inference: During inference, our system first use the $\pi_\textrm{pre}$ to process the environmental point cloud to determine whether to execute the $\pi_\textrm{wall}$ or $\pi_\textrm{edge}$, while simultaneously predicting the corresponding target position $P_t$. 
+          The pushing policy $\pi_\textrm{push}$ then moves the object to this target position, followed by the selected extrinsic dexterity policy ($\pi_{\textrm{wall}}$ or $\pi_{\textrm{edge}}$) to complete the grasp.
+        </p> -->
+        <p>We present <strong>ExDex</strong>, a hierarchical framework that enables non-prehensile manipulation skills for ungraspable objects leveraging external environments. 
+          Our approach is demonstrated through two representative tasks: 
+          <strong>wall</strong>, where objects are pushed against walls to facilitate manipulation. 
+          And <strong>edge</strong>, where objects are repositioned to table edges allowing the hand to maneuver into optimal grasping poses. 
+          Through reinforcement learning in simulation, we successfully train these manipulation policies and achieve zero-shot transfer to real-world scenarios.</p>
+      </div>
+      <!-- <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/real_edge_bag.mp4"
+                type="video/mp4">
+      </video> -->
+      <!-- <h2 class="subtitle has-text-centered">
+        <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
+        free-viewpoint
+        portraits.
+      </h2>
+    </div> -->
+
+  </div>
+</section>
+
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-real_edge_bag">
+          <video poster="" id="real_edge_bag" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/real_edge_bag.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-real_edge_jianguo">
+          <video poster="" id="real_edge_jianguo" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/real_edge_jianguo.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!-- <div class="item item-edge_redbox">
+          <video poster="" id="edge_redbox" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/show_wall_plate.mp4"
+                    type="video/mp4">
+          </video> -->
+        <!-- </div> -->
+        <div class="item item-real_edge_plate">
+          <video poster="" id="real_edge_plate" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/real_edge_plate.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-real_wall_bag">
+          <video poster="" id="real_wall_bag" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/real_wall_bag.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-real_wall_huojimian">
+          <video poster="" id="real_wall_huojimian" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/real_wall_huojimian.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-real_wall_whitebox">
+          <video poster="" id="real_wall_whitebox" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/real_wall_whitebox.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+<!--         <div class="item item-coffee">
+          <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/coffee.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-toby">
+          <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/toby2.mp4"
+                    type="video/mp4"> -->
+          <!-- </video>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-frontedge_plate">
+          <video poster="" id="frontedge_plate" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/frontedge_plate.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-frontedge_kekebei">
+          <video poster="" id="frontedge_kekebei" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/frontedge_kekebei.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-leftedge_bag">
+          <video poster="" id="leftedge_bag" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/leftedge_bag.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-leftedge_kekebei">
+          <video poster="" id="leftedge_kekebei" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/leftedge_kekebei.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-wall_huojimian">
+          <video poster="" id="wall_huojimian" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/wall_huojimian.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-wall_lipton">
+          <video poster="" id="wall_lipton" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/wall_lipton.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Objects with large base areas become ungraspable when they exceed the end-effector's maximum aperture. 
+            Existing approaches address this limitation through extrinsic dexterity, which exploits environmental features for non-prehensile manipulation. 
+            While grippers have shown some success in this domain, dexterous hands offer superior flexibility and manipulation capabilities that enable richer environmental interactions, though they present greater control challenges. 
+            Here we present ExDex, a dexterous arm-hand system that leverages reinforcement learning to enable non-prehensile manipulation for grasping ungraspable objects. 
+            Our system learns two strategic manipulation sequences: relocating objects from table centers to edges for direct grasping, or to walls where extrinsic dexterity enables grasping through environmental interaction. 
+            We validate our approach through extensive experiments with dozens of diverse household objects, demonstrating both superior performance and generalization capabilities with novel objects. 
+            Furthermore, we successfully transfer the learned policies from simulation to a real-world robot system without additional training, further demonstrating its applicability in real-world scenarios.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <!-- <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div> -->
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Method. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Method</h2>
+          <img src="./static/images/method.jpeg"
+                  class="interpolation-image"
+                  alt="Interpolate start reference image."/>
+          <div class="content has-text-justified">
+          <!-- <p>
+            (A) Training: Our system is trained in three stages. 
+            In Stage 1, we train a prediction model \(\pi\<sub>pre</sub>) through supervised learning that takes point cloud input and predicts the optimal target position $P_t$ for object repositioning. 
+            Stage 2 focuses on training three low-level skills via reinforcement learning: a pushing policy $\pi_\textrm{push}$ that repositions objects to target locations, and two policies $\pi_\textrm{wall}, \pi_\textrm{edge}$ that enable grasping of ungraspable objects from walls and table edges via extrinsic dexterity. 
+            In Stage 3, we jointly finetune these policies to ensure better transitions between consecutive skills. 
+            
+            (B) Inference: During inference, our system first use the $\pi_\textrm{pre}$ to process the environmental point cloud to determine whether to execute the $\pi_\textrm{wall}$ or $\pi_\textrm{edge}$, while simultaneously predicting the corresponding target position $P_t$. 
+            The pushing policy $\pi_\textrm{push}$ then moves the object to this target position, followed by the selected extrinsic dexterity policy ($\pi_{\textrm{wall}}$ or $\pi_{\textrm{edge}}$) to complete the grasp.
+          </p> -->
+          <p><strong>(A) Training:</strong> Our system is trained in three stages.
+            In Stage 1, we train a prediction model \(\pi_{\text{pre}}\) through supervised learning that takes point cloud input and predicts the optimal target position \(P_t\) for object repositioning.
+            Stage 2 focuses on training three low-level skills via reinforcement learning: a pushing policy \(\pi_{\text{push}}\) that repositions objects to target locations, and two policies \(\pi_{\text{wall}}, \pi_{\text{edge}}\) that enable grasping of ungraspable objects from walls and table edges via extrinsic dexterity.
+            In Stage 3, we jointly finetune these policies to ensure better transitions between consecutive skills.</p>
+          <p><strong>(B) Inference:</strong> During inference, our system first use the \(\pi_{\text{pre}}\) to process the environmental point cloud to determine whether to execute the \(\pi_{\text{wall}}\) or \(\pi_{\text{edge}}\), while simultaneously predicting the corresponding target position \(P_t\).
+            The pushing policy \(\pi_{\text{push}}\) then moves the object to this target position, followed by the selected extrinsic dexterity policy (\(\pi_{\text{wall}}\) or \(\pi_{\text{edge}}\)) to complete the grasp.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Method. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Experiments</h2>
+        <h3 class="title is-4">Setups</h3>
+          <img src="./static/images/setup.jpeg"
+                  class="interpolation-image"
+                  alt="Interpolate start reference image."/>
+          <div class="content has-text-justified">
+            <p>
+              (a) Object sets used in simulation. Policies are firstly trained on the pretrain set, and then finetuned on the finetune set, and tested for zero-shot generalization on the unseen set. 
+              (b) Real-world test objects (top: wall-task objects, bottom: edge-task objects). 
+              (c) Workspace of the real-world, We use an Inspired Hand mounted on a UR5e robot, equipped with a RealSense D455 camera.
+            </p>
+          </div>
+
+        <h3 class="title is-4">Simulation</h3>
+        <video poster="" id="sim_teasor" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/sim_teasor.mp4"
+                  type="video/mp4">
+        </video>
+
+        <h3 class="title is-4">Real World</h3>
+        <video poster="" id="real_teasor" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/real_teasor.mp4"
+                  type="video/mp4">
+        </video>
+    
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Conclusion</h2>
+        <div class="content has-text-justified">
+          <p>
+            In this work, we investigate the challenging problem of manipulating ungraspable objects using extrinsic dexterity with a multi-finger hand. 
+            Inspired by human's ability to leverage environmental features like walls and edges, we present a hierarchical framework that combines strategic planning with dexterous manipulation skills. 
+            Our framework features a high-level planner that intelligently selects optimal external contacts and predicts target positions, coupled with a low-level controller that executes precise non-prehensile manipulation skills.
+            Through extensive experiments in simulation, we demonstrate our framework's superior performance across different external contacts and various objects. 
+            The results show that our approach successfully addresses the key challenges in extrinsic dexterity by three factors: strategic object repositioning, dynamic contact interactions, and precise manipulation control. 
+            Moreover, the successful transfer of our policies from simulation to a real-world robot system validates the practical applicability of our method, bridging the gap between simulation and reality in contact-rich manipulation tasks.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <!-- <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div> -->
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+
+<!-- <section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{yuhan2025exdex,
+  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
+  title     = {Nerfies: Deformable Neural Radiance Fields},
+  journal   = {ICCV},
+  year      = {2021},
+}</code></pre>
+  </div>
+</section> -->
+
+
+<!-- <footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            Website template borrowed
+               from <a href="https://github.com/nerfies/nerfies.github.io">NeRFies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer> -->
+
+</body>
+</html>
